@@ -36,7 +36,7 @@ if (!file_exists($filePath)) {
 </head>
 <body>
     <div class="container mt-5">
-        <!-- <h2 class="mb-4">View File - <?php echo $fileName; ?></h2> -->
+        <h2 class="mb-4">View File - <?php echo $fileName; ?></h2>
 
         <?php
         // Menampilkan daftar file atau subfolder dalam tabel
@@ -58,7 +58,7 @@ if (!file_exists($filePath)) {
                 foreach ($files as $index => $item) {
                     $itemPath = $filePath . '/' . $item;
 
-                    // Hanya tampilkan file dan subfolder yang bukan direktori ..
+                    // Hanya tampilkan file dan subfolder yang bukan direktori
                     if ($item != "." && $item != "..") {
                         echo '<tr>
                                 <th scope="row">' . ($index + 1) . '</th>
@@ -83,12 +83,9 @@ if (!file_exists($filePath)) {
             }
         } else {
             // Jika itu adalah file, tampilkan konten file
-            // echo '<iframe src="' . $filePath . '" width="100%" height="600px"></iframe>';
-
-            echo '  <object width="100%" height="1000px" type="application/pdf" data="' . $filePath . '#toolbar=0" id="pdf_content">
+            echo '<object width="100%" height="600px" type="application/pdf" data="'.$filePath.'#toolbar=0" id="pdf_content">
             <p>Document load was not successful.</p>
-            </object>';
-          
+             </object>';
         }
         ?>
 
@@ -99,14 +96,14 @@ if (!file_exists($filePath)) {
     <!-- Tambahkan script Bootstrap JS (Opsional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    window.addEventListener('keydown', function (e) {
-    if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
-        e.preventDefault();
-        alert('Printing is disabled');
-        return false;
-    }
-    });
+        window.addEventListener('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+            e.preventDefault();
+            alert('Printing is disabled');
+            return false;
+        }
+        });
 
-</script>
+    </script>
 </body>
 </html>
