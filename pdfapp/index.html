@@ -1,0 +1,13 @@
+<object width="100%" height="100%" type="application/pdf" data="Scan123.pdf#toolbar=0" id="pdf_content">
+  <p>Document load was not successful.</p>
+</object>
+
+<script>
+  window.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
+      e.preventDefault();
+      alert('Printing is disabled');
+      return false; // Tambahkan ini untuk memastikan default action tidak dijalankan
+    }
+  });
+</script>
