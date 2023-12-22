@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($success) {
         $_SESSION['success'] = $successMessages;
-        // Redirect kembali ke halaman awal setelah berhasil mengunggah
+        // Redirect kembali ke halaman awal setelah berhasil mengunggah test
         header("Location: index.php");
         exit();
     }
