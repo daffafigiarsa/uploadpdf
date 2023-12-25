@@ -14,7 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     foreach ($expectedFiles as $expectedFile) {
         $pdfFile = $_FILES[$expectedFile . "File"];
-        
+
+        // Membuat nama file acak
+        $randomFileName = bin2hex(random_bytes(8));
+
         // Validasi ekstensi file
         $allowedExtensions = ['pdf'];
         $fileExtension = pathinfo($pdfFile['name'], PATHINFO_EXTENSION);
@@ -26,11 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Buat folder jika belum ada
             $folderPath = "uploads/$folderName/$expectedFile";
             if (!file_exists($folderPath)) {
-                mkdir($folderPath, 0777, true);
+                mkdir($folderPath, 0755, true);
             }
 
-            // Pindahkan file PDF ke folder
-            $pdfFilePath = $folderPath . "/" . $pdfFile["name"];
+            // Pindahkan file PDF ke folder dengan nama acak
+            $pdfFilePath = $folderPath . "/" . $randomFileName . ".pdf";
             move_uploaded_file($pdfFile["tmp_name"], $pdfFilePath);
 
             $successMessages[] = "File $expectedFile berhasil diunggah ke folder: $folderPath";
@@ -39,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($success) {
         $_SESSION['success'] = $successMessages;
-        // Redirect kembali ke halaman awal setelah berhasil mengunggah test
+        // Redirect kembali ke halaman awal setelah berhasil mengunggah file
         header("Location: index.php");
         exit();
     }
