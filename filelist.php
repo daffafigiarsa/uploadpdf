@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Folder List</h2>
+        <h2 class="mb-4">Doc Name</h2>
 
         <?php
         $folderPath = "uploads/";
@@ -45,8 +45,11 @@
             echo '<p>No folders found.</p>';
         }
         ?>
+        <a href="logout.php" class="btn btn-danger ml-2">logout</a>
+
     </div>
 
+    
     <!-- Add Bootstrap JS script (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

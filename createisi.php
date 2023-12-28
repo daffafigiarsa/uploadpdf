@@ -23,14 +23,14 @@ if (isset($_POST['logout'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Doc PDF</title>
+    <title>Upload PDF</title>
 
     <!-- Tambahkan link Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Create Doc PDF</h2>
+        <h2 class="mb-4">Upload PDF</h2>
 
         <?php
         // Tampilkan pesan kesalahan jika ada
@@ -73,32 +73,28 @@ if (isset($_POST['logout'])) {
             </div>
 
             <div class="mb-3">
-                <label for="dt_modified_date" class="form-label">Date</label>
-                <input type="date" name="dt_modified_date" class="form-control">
+                <label for="coverFile" class="form-label">Select Cover PDF:</label>
+                <input type="file" name="coverFile" class="form-control" accept=".pdf" >
             </div>
 
             <div class="mb-3">
-                <label for="vc_created_user" class="form-label">User Create</label>
-                <select id="vc_created_user" name="vc_created_user" class="form-select">
-                    <?php
-                    // Tampilkan data sebagai opsi dalam dropdown
-                    while ($row = mysqli_fetch_assoc($resultuser)) {
-                        echo '<option value="' . $row['code_emp'] . '">' . $row['username'] . '</option>';
-                    }
-                    ?>
-                </select>
+                <label for="historyFile" class="form-label">Select History PDF:</label>
+                <input type="file" name="historyFile" class="form-control" accept=".pdf" >
             </div>
 
             <div class="mb-3">
-                <label for="comp_id" class="form-label">Company</label>
-                <select id="comp_id" name="comp_id" class="form-select">
-                    <?php
-                    // Tampilkan data sebagai opsi dalam dropdown
-                    while ($row = mysqli_fetch_assoc($resultcom)) {
-                        echo '<option value="' . $row['id'] . '">' . $row['short'] . '</option>';
-                    }
-                    ?>
-                </select>
+                <label for="isiFile" class="form-label">Select Isi PDF:</label>
+                <input type="file" name="isiFile" class="form-control" accept=".pdf" >
+            </div>
+
+            <div class="mb-3">
+                <label for="attachmentFile" class="form-label">Select Attachment PDF:</label>
+                <input type="file" name="attachmentFile" class="form-control" accept=".pdf" >
+            </div>
+
+            <div class="mb-3">
+                <label for="recordFile" class="form-label">Select Record PDF:</label>
+                <input type="file" name="recordFile" class="form-control" accept=".pdf" >
             </div>
 
             <button type="submit" class="btn btn-primary">Upload</button>

@@ -96,6 +96,18 @@ if (!file_exists($filePath)) {
     <!-- Tambahkan script Bootstrap JS (Opsional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        function blockPrintShortcut(e) {
+        // Mendeteksi tombol pintasan cetak (Ctrl + P di Windows/Linux, Command + P di Mac)
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+            // Mencegah aksi default (pencetakan)
+            e.preventDefault();
+            // Menampilkan pesan peringatan
+            alert('Printing is disabled');
+            return false;
+        }
+    }
+    
+    document.getElementById('pdf_content').addEventListener('keydown', blockPrintShortcut);
     // Mendeteksi peristiwa tombol pintasan cetak
     window.addEventListener('keydown', function (e) {
         // Mendeteksi tombol pintasan cetak (Ctrl + P di Windows/Linux, Command + P di Mac)

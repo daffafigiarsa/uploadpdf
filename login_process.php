@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         // Login berhasil
         $_SESSION['username'] = $input_username;
-        header("Location: index.php"); // Gantilah ini dengan halaman setelah login berhasil
+        header("Location: filelist.php"); // Gantilah ini dengan halaman setelah login berhasil
     } else {
         // Login gagal
         header("Location: login.php?error=Invalid username or password");

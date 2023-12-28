@@ -16,7 +16,58 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
+
+// Koneksi ke database
+$conn = mysqli_connect("localhost:3306", "root", "", "uploadpdf");
+
+// Periksa koneksi
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+
+// Ambil data dari database
+
+$querytype = "SELECT id, description FROM mst_doctype";
+$resulttype = mysqli_query($conn, $querytype);
+
+$queryiso = "SELECT id, description FROM mst_iso";
+$resultiso = mysqli_query($conn, $queryiso);
+
+$queryuser = "SELECT code_emp, username FROM users";
+$resultuser = mysqli_query($conn, $queryuser);
+
+$querycomp = "SELECT id, short FROM company";
+$resultcom = mysqli_query($conn, $querycomp);
+
+// Cek apakah query berhasil
+if (!$resultuser || !$resultcom) {
+    die("Query gagal: " . mysqli_error($conn));
+}
+
+// Tutup koneksi database
+mysqli_close($conn);
+
+require 'storedoc.php';
+
+if (isset($_POST["submit"])) {
+    // Cek apakah data berhasil ditambahkan atau tidak
+    if (tambahiso($_POST) > 0) {
+        echo "<script>
+            alert('Data berhasil ditambahkan');
+            document.location.href = 'createdoc.php';
+        </script>";
+    } else {
+        echo "<script>
+            alert('Data gagal ditambahkan');
+            document.location.href = 'createdoc.php';
+        </script>";
+        mysqli_error($conn);
+    }
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,6 +126,30 @@ if (isset($_POST['logout'])) {
             <div class="mb-3">
                 <label for="dt_modified_date" class="form-label">Date</label>
                 <input type="date" name="dt_modified_date" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="doctype_id" class="form-label">Type</label>
+                <select id="doctype_id" name="doctype_id" class="form-select">
+                    <?php
+                    // Tampilkan data sebagai opsi dalam dropdown
+                    while ($row = mysqli_fetch_assoc($resulttype)) {
+                        echo '<option value="' . $row['id'] . '">' . $row['description'] . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="iso_id" class="form-label">ISO</label>
+                <select id="iso_id" name="iso_id" class="form-select">
+                    <?php
+                    // Tampilkan data sebagai opsi dalam dropdown
+                    while ($row = mysqli_fetch_assoc($resultiso)) {
+                        echo '<option value="' . $row['id'] . '">' . $row['description'] . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
 
             <div class="mb-3">

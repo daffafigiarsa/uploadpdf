@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+// Periksa apakah sesi "folderName" sudah ada atau belum
+if (!isset($_SESSION['folderName'])) {
+    // Jika belum, alihkan ke halaman login atau halaman lain yang sesuai
+    header("Location: login.php");
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data dari formulir
     $folderName = $_POST["folderName"];
