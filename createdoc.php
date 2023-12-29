@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 // Periksa apakah pengguna sudah login
 if (!isset($_SESSION['username'])) {
     // Jika belum, alihkan ke halaman login
@@ -46,22 +47,24 @@ if (!$resultuser || !$resultcom) {
 
 // Tutup koneksi database
 mysqli_close($conn);
+require 'navbar.php';
 
 require 'storedoc.php';
 
 if (isset($_POST["submit"])) {
     // Cek apakah data berhasil ditambahkan atau tidak
-    if (tambahiso($_POST) > 0) {
+    if (tambahdoc($_POST) > 0) {
         echo "<script>
             alert('Data berhasil ditambahkan');
-            document.location.href = 'createdoc.php';
+          
         </script>";
     } else {
         echo "<script>
             alert('Data gagal ditambahkan');
             document.location.href = 'createdoc.php';
+            consol.log( mysqli_error($conn));
         </script>";
-        mysqli_error($conn);
+        
     }
 }
 
@@ -107,20 +110,10 @@ if (isset($_POST["submit"])) {
         }
         ?>
 
-        <form action="upload.php" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="description" class="form-label">Name Doc</label>
                 <input type="text" name="description" class="form-control" >
-            </div>
-
-            <div class="mb-3">
-                <label for="doctype_id" class="form-label">Type</label>
-                <input type="text" name="doctype_id" class="form-control" >
-            </div>
-
-            <div class="mb-3">
-                <label for="iso_id" class="form-label">ISO Nn</label>
-                <input type="text" name="iso_id" class="form-control" >
             </div>
 
             <div class="mb-3">
@@ -176,13 +169,10 @@ if (isset($_POST["submit"])) {
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary" name="submit">Upload</button>
             <!-- Tombol logout -->
             <button type="submit" name="logout" class="btn btn-danger ml-2">Logout</button>
             <!-- Tombol berwarna hijau -->
-            <a href="filelist.php" class="btn btn-success ml-2">Link Hijau</a>
-            <a href="createiso.php" class="btn btn-success ml-2">Buat ISO</a>
-            <a href="createtype.php" class="btn btn-success ml-2">Buat Type</a>
         </form>
     </div>
 

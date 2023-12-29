@@ -41,6 +41,7 @@ if (!$resultuser || !$resultcom) {
 mysqli_close($conn);
 
 // Sertakan file storeiso.php
+require 'navbar.php';
 require 'storeiso.php';
 
 if (isset($_POST["submit"])) {
@@ -137,10 +138,6 @@ if (isset($_POST["submit"])) {
 
             <button type="submit" class="btn btn-primary" name="submit">Create</button>
             <!-- Tombol logout -->
-            <button type="submit" name="logout" class="btn btn-danger ml-2">Logout</button>
-            <!-- Tombol berwarna hijau -->
-            <a href="filelist.php" class="btn btn-success ml-2">Link Hijau</a>
-            <a href="createiso.php" class="btn btn-success ml-2">Buat ISO</a>
         </form>
     </div>
 

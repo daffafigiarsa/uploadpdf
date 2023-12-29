@@ -40,7 +40,7 @@ function query($query)
 }
 
 
- $successMessages[] = "File $expectedFile berhasil diunggah ke folder: $folderPath";
+
 
 function tambahiso($data)
 {

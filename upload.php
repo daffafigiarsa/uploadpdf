@@ -1,17 +1,28 @@
 <?php
-session_start();
-
-// Periksa apakah sesi "folderName" sudah ada atau belum
-if (!isset($_SESSION['folderName'])) {
-    // Jika belum, alihkan ke halaman login atau halaman lain yang sesuai
-    header("Location: login.php");
-    exit();
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $conn = mysqli_connect("localhost:3306", "root", "", "uploadpdf");
+
+    function query($query)
+    {
+        global $conn;
+        $result = mysqli_query($conn, $query);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
     // Ambil data dari formulir
-    $folderName = $_POST["folderName"];
+    $folderName = $_POST["description"];
+
+    $queryupload = "SELECT path FROM mst_document WHERE id = '$folderName'";
+    $resultupload = mysqli_query($conn, $queryupload);
+
+    $row = mysqli_fetch_assoc($resultupload);
+    $pathupload = $row['path'];
     
+    var_dump($pathupload);
     // Definisi nama-nama file yang diharapkan
     $expectedFiles = ['cover', 'history', 'isi', 'attachment', 'record'];
 
@@ -34,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['error'] = "Ekstensi file $expectedFile tidak diizinkan. Silakan unggah file PDF.";
         } else {
             // Buat folder jika belum ada
-            $folderPath = "uploads/$folderName/$expectedFile";
+            $folderPath = "uploads/$pathupload";
             if (!file_exists($folderPath)) {
                 mkdir($folderPath, 0755, true);
             }
@@ -53,9 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: index.php");
         exit();
     }
-} else {
-    $_SESSION['error'] = "Metode request tidak valid.";
-    header("Location: index.php");
-    exit();
+
 }
 ?>

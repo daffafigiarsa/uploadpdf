@@ -16,6 +16,50 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
+// Koneksi ke database
+$conn = mysqli_connect("localhost:3306", "root", "", "uploadpdf");
+
+// Periksa koneksi
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+
+// Ambil data dari database
+$querydoc = "SELECT id, description FROM mst_document";
+$resultdoc = mysqli_query($conn, $querydoc);
+
+$queryuser = "SELECT code_emp, username FROM users";
+$resultuser = mysqli_query($conn, $queryuser);
+
+$querycomp = "SELECT id, short FROM company";
+$resultcom = mysqli_query($conn, $querycomp);
+
+// Cek apakah query berhasil
+if (!$resultuser || !$resultcom) {
+    die("Query gagal: " . mysqli_error($conn));
+}
+
+// Tutup koneksi database
+mysqli_close($conn);
+require 'navbar.php';
+require 'upload.php';
+
+// if (isset($_POST["submit"])) {
+//     // Cek apakah data berhasil ditambahkan atau tidak
+//     if (upload($_POST) > 0) {
+//         echo "<script>
+//             alert('Data berhasil ditambahkan');
+//             document.location.href = 'createiso.php';
+//         </script>";
+//     } else {
+//         echo "<script>
+//             alert('Data gagal ditambahkan');
+//             document.location.href = 'createiso.php';
+//         </script>";
+//         mysqli_error($conn);
+//     }
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -56,20 +100,47 @@ if (isset($_POST['logout'])) {
         }
         ?>
 
-        <form action="upload.php" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="description" class="form-label">Name Doc</label>
-                <input type="text" name="description" class="form-control" >
+        <form action="" method="post" enctype="multipart/form-data">
+           
+         <div class="mb-3">
+                <label for="description" class="form-label">Doc Name</label>
+                <select id="description" name="description" class="form-select">
+                    <?php
+                    // Tampilkan data sebagai opsi dalam dropdown
+                    while ($row = mysqli_fetch_assoc($resultdoc)) {
+                        echo '<option value="' . $row['id'] . '">' . $row['description'] . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
 
             <div class="mb-3">
-                <label for="doctype_id" class="form-label">Type</label>
-                <input type="text" name="doctype_id" class="form-control" >
+                <label for="dt_modified_date" class="form-label">Date</label>
+                <input type="date" name="dt_modified_date" class="form-control">
             </div>
 
             <div class="mb-3">
-                <label for="iso_id" class="form-label">ISO Nn</label>
-                <input type="text" name="iso_id" class="form-control" >
+                <label for="vc_created_user" class="form-label">User Create</label>
+                <select id="vc_created_user" name="vc_created_user" class="form-select">
+                    <?php
+                    // Tampilkan data sebagai opsi dalam dropdown
+                    while ($row = mysqli_fetch_assoc($resultuser)) {
+                        echo '<option value="' . $row['code_emp'] . '">' . $row['username'] . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="comp_id" class="form-label">Company</label>
+                <select id="comp_id" name="comp_id" class="form-select">
+                    <?php
+                    // Tampilkan data sebagai opsi dalam dropdown
+                    while ($row = mysqli_fetch_assoc($resultcom)) {
+                        echo '<option value="' . $row['id'] . '">' . $row['short'] . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -97,13 +168,8 @@ if (isset($_POST['logout'])) {
                 <input type="file" name="recordFile" class="form-control" accept=".pdf" >
             </div>
 
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary" name="submit">Upload</button>
             <!-- Tombol logout -->
-            <button type="submit" name="logout" class="btn btn-danger ml-2">Logout</button>
-            <!-- Tombol berwarna hijau -->
-            <a href="filelist.php" class="btn btn-success ml-2">Link Hijau</a>
-            <a href="createiso.php" class="btn btn-success ml-2">Buat ISO</a>
-            <a href="createtype.php" class="btn btn-success ml-2">Buat Type</a>
         </form>
     </div>
 

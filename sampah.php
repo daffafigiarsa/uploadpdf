@@ -8,7 +8,7 @@ if (!$conn) {
 }
 
 // Ambil data dari database
-$queryuser = "SELECT description, path FROM `mst_iso`";
+$queryuser = "SELECT a.description, a.path, b.short FROM mst_document a, mst_doctype b WHERE a.comp_id = b.comp_id AND a.doctype_id = b.id";
 $resultuser = mysqli_query($conn, $queryuser);
 
 // Cek apakah query berhasil
@@ -48,6 +48,7 @@ require 'navbar.php';
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Doc Name</th>
+                        <th scope="col">Type</th>
                         <th scope="col">View Files</th>
                     </tr>
                 </thead>
@@ -60,6 +61,7 @@ require 'navbar.php';
                 echo '<tr>
                     <th scope="row">' . ($index + 1) . '</th>
                     <td>' . $row['description'] . '</td> 
+                    <td>' . $row['short'] . '</td>
                     <td><a href="view_files.php?folder=' . $row['path'] . '" class="btn btn-primary">View Files</a></td>
                 </tr>';
 

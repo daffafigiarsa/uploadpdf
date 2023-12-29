@@ -23,6 +23,7 @@ if (!file_exists($filePath)) {
     header("Location: index.php");
     exit();
 }
+require 'navbar.php';
 ?>
 
 <!DOCTYPE html>

@@ -26,6 +26,20 @@ if (!is_dir($folderPath)) {
 // Membaca daftar file dan subfolder dalam folder
 $files = scandir($folderPath);
 
+// Koneksi ke database
+$conn = mysqli_connect("localhost:3306", "root", "", "uploadpdf");
+
+// Periksa koneksi database
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+
+// Query untuk mendapatkan data dari database
+$query = "SELECT a.description, a.path, b.short FROM mst_document a, mst_doctype b WHERE a.comp_id = b.comp_id AND a.doctype_id = b.id";
+$result = mysqli_query($conn, $query);
+
+require 'navbar.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +63,7 @@ $files = scandir($folderPath);
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -59,9 +74,13 @@ $files = scandir($folderPath);
 
                 // Hanya tampilkan file dan subfolder yang bukan direktori
                 if ($item != "." && $item != "..") {
+                    // Ambil data dari hasil query yang sesuai dengan nama dokumen
+                    $row = mysqli_fetch_assoc($result);
+
                     echo '<tr>
                             <th scope="row">' . ($index + 1) . '</th>
                             <td>' . $item . '</td>
+                            <td>' . $row['short'] . '</td>
                             <td>';
 
                     if (is_dir($itemPath)) {
@@ -80,6 +99,9 @@ $files = scandir($folderPath);
         } else {
             echo '<p>No files found.</p>';
         }
+
+        // Tutup koneksi database
+        mysqli_close($conn);
         ?>
 
         <!-- Tombol kembali ke halaman utama -->
