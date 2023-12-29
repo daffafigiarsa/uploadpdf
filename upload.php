@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['error'] = "Ekstensi file $expectedFile tidak diizinkan. Silakan unggah file PDF.";
         } else {
             // Buat folder jika belum ada
-            $folderPath = "uploads/$pathupload";
+            $folderPath = "uploads/$pathupload/$expectedFile";
             if (!file_exists($folderPath)) {
                 mkdir($folderPath, 0755, true);
             }
@@ -60,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($success) {
         $_SESSION['success'] = $successMessages;
-        // Redirect kembali ke halaman awal setelah berhasil mengunggah file
         header("Location: index.php");
         exit();
     }
