@@ -25,6 +25,7 @@ if (!$conn) {
 }
 
 // Ambil data dari database
+
 $querydoc = "SELECT id, description FROM mst_document";
 $resultdoc = mysqli_query($conn, $querydoc);
 
@@ -44,21 +45,21 @@ mysqli_close($conn);
 require 'navbar.php';
 require 'upload.php';
 
-// if (isset($_POST["submit"])) {
-//     // Cek apakah data berhasil ditambahkan atau tidak
-//     if (upload($_POST) > 0) {
-//         echo "<script>
-//             alert('Data berhasil ditambahkan');
-//             document.location.href = 'createiso.php';
-//         </script>";
-//     } else {
-//         echo "<script>
-//             alert('Data gagal ditambahkan');
-//             document.location.href = 'createiso.php';
-//         </script>";
-//         mysqli_error($conn);
-//     }
-// }
+if (isset($_POST["submit"])) {
+    // Cek apakah data berhasil ditambahkan atau tidak
+    if (upload($_POST) > 0) {
+        echo "<script>
+            alert('Data berhasil ditambahkan');
+            document.location.href = 'createiso.php';
+        </script>";
+    } else {
+        echo "<script>
+            alert('Data gagal ditambahkan');
+            document.location.href = 'createiso.php';
+        </script>";
+        mysqli_error($conn);
+    }
+}
 
 ?>
 
@@ -115,6 +116,11 @@ require 'upload.php';
             </div>
 
             <div class="mb-3">
+                <label for="nodoc" class="form-label">Nomber Doc</label>
+                <input type="text" name="nodoc" class="form-control">
+            </div>
+
+            <div class="mb-3">
                 <label for="dt_modified_date" class="form-label">Date</label>
                 <input type="date" name="dt_modified_date" class="form-control">
             </div>
@@ -149,8 +155,8 @@ require 'upload.php';
             </div>
 
             <div class="mb-3">
-                <label for="historyFile" class="form-label">Select History PDF:</label>
-                <input type="file" name="historyFile" class="form-control" accept=".pdf" >
+                <label for="revisi_cover" class="form-label">Revisi Cover:</label>
+                <input type="text" name="revisi_cover" class="form-control">
             </div>
 
             <div class="mb-3">
@@ -159,13 +165,28 @@ require 'upload.php';
             </div>
 
             <div class="mb-3">
+                <label for="revisi_isi" class="form-label">Revisi Doc:</label>
+                <input type="text" name="revisi_isi" class="form-control">
+            </div>
+
+            <div class="mb-3">
                 <label for="attachmentFile" class="form-label">Select Attachment PDF:</label>
                 <input type="file" name="attachmentFile" class="form-control" accept=".pdf" >
             </div>
 
             <div class="mb-3">
+                <label for="revisi_attachment" class="form-label">Revisi Attachment:</label>
+                <input type="text" name="revisi_attachment" class="form-control">
+            </div>
+
+            <div class="mb-3">
                 <label for="recordFile" class="form-label">Select Record PDF:</label>
                 <input type="file" name="recordFile" class="form-control" accept=".pdf" >
+            </div>
+
+            <div class="mb-3">
+                <label for="revisi_record" class="form-label">Revisi Record:</label>
+                <input type="text" name="revisi_record" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary" name="submit">Upload</button>
